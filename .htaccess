@@ -1,2 +1,3 @@
 RewriteEngine On
-RewriteRule ^manga/buyu-kulesi$ /manga/Büyü-Kulesinin-Sorunlu-çocuğu/index-buyu.html [L]
+RewriteRule ^manga/buyu-kulesi$ /manga/Büyü-Kulesinin-Sorunlu-çocuğu/index-buyu.html 
+Options -Indexes[L]
