@@ -1,0 +1,49 @@
+body{
+    padding: 0;
+    margin:0;
+    text-decoration: none;
+    text-align: center;
+}
+.main{
+    background: url(anime-girl-elf-smoking-4k-wallpaper-uhdpaper.com-349@5@d.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+.main h1{
+    padding-top: 20%;
+    font-size: 50px;
+}
+.main p{
+    font-size:22px;
+}
+.button{
+    font-size: 20px;
+    margin-top: 12px;
+    padding: 15px 27px;
+    display: inline-block;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    text-decoration: none;
+}
+.button:hover{
+    background-color:white ;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.button:hover{
+    transform: scale(0.9);}
+.p{
+        background-color:rgb(42, 105, 173);
+        color: #fff;
+        padding: 15px;
+        font-family: sans-serif;
+        font-size: 18px;
+}
+.pe{
+    color:  rgb(42, 105, 173) ;
+    padding: 15px;
+    font-family: sans-serif;
+    font-size: 18px;
+    
+}

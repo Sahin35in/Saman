@@ -1,0 +1,71 @@
+body{
+    margin: 0;
+    padding: 0;
+
+    background: url(sololeveling.jpg);
+    background-size: cover;
+}
+.box{
+    width: 450px;
+    background-color: rgb(173, 55, 55);
+    padding: 40px;
+    text-align: center;
+    margin: auto;
+    margin-top: 5%;
+}
+.box p,h1,h5{
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.box img{
+    border-radius: 50%;
+    transition: 0.5s;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+}
+.box img:hover{
+    transform: scale(0.9);
+}
+.box h1{
+    font-size: 40px;
+    letter-spacing: 4px;
+    font-weight: 100;
+}
+.box h5{
+    font-size: 17px;
+    letter-spacing: 2px;
+    font-weight: 100;
+    color: #000000;
+}
+.box p{
+    text-align:justify ;
+    color: rgb(216, 216, 200);
+}
+ul{
+    margin: 0;
+    padding: 0;
+}
+.box li{
+    display:inline-block ;
+    margin: 10px;
+    list-style: none;
+}
+.c1{
+    color: #19cf1c;
+    font-size: 50px;
+}
+.c2{
+    color: #000000;
+    font-size: 50px;
+}
+.c3{
+    color: #132a64;
+    font-size: 50px;
+}
+.c4{
+    color: #b51f36;
+    font-size: 50px;
+}
+
+
