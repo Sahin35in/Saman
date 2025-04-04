@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/manga/Büyü-Kulesinin-Sorunlu-çocuğu",
+      "destination": "/manga/Büyü-Kulesinin-Sorunlu-çocuğu/index-büyü.html"
+    }
+  ]
+}
