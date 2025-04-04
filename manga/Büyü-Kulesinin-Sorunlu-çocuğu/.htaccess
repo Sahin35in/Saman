@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^manga/buyu-kulesi$ /manga/Büyü-Kulesinin-Sorunlu-çocuğu/index-buyu.html [L]
