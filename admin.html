@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="nano.css">
+    <title>Admin Girişi</title>
+</head>
+<body>
+
+    <div id="adminLogin">
+        <h2>Admin Girişi</h2>
+        <input type="password" id="adminPassword" placeholder="Şifrenizi girin">
+        <button id="loginButton">Giriş Yap</button>
+    </div>
+
+    <script>
+        document.getElementById("loginButton").addEventListener("click", function () {
+            let password = document.getElementById("adminPassword").value;
+
+            if (password === "210210") { // 🌟 Buraya kendi şifreni ekle
+                localStorage.setItem("admin", "true"); // 🌟 Admin yetkisini kaydet
+                alert("Giriş başarılı, yönlendiriliyorsunuz!");
+                window.location.href = "index.html"; // 🌟 Kullanıcıyı ana siteye yönlendir
+            } else {
+                alert("Yanlış şifre, giriş reddedildi!");
+            }
+        });
+    </script>
+
+</body>
+</html>

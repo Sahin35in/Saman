@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700;800&display=swap');
+body {
+    background-color: #16151d;
+    margin: 0;
+    padding: 0;
+    width: 100vw; 
+    overflow-x: hidden;
+    background-image: url('saa-photoaidcom-blur.webp'); 
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-size: 1600px 320px;
+    padding: 10px 0;
+    z-index: -1;       
+}
+
+.info-container {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #333;
+    background-color: #222222;
+    border-radius: 5px;
+    margin-left: 35%;
+    margin-top: -28%;
+    font-family: Arial, sans-serif;
+}
+.info-item {
+    padding: 8px 0;
+    font-size: 16px;
+    color: #a9a4a4;
+    border-bottom: 1px solid #3e3a3a;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+strong {
+    color: #ffffff;
+}
+
+
+.container {
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    align-items: center; 
+    background-color: #222222;
+    height: 460px;
+    padding: 130px;
+    width: 41%;
+    top: 170px;
+    margin: auto;
+    justify-content: space-between;
+    z-index: 1; 
+}
+.resim img {
+    width:31%;
+    height: auto;
+    margin: -112.5px;
+    margin-top: 6%;
+}
+
+
+.ilkson {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+} 
+.ilkson .ilk{
+    color: white;
+    background-color: #2a2a2c;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s;
+    border-radius: 15%;
+    padding:0.2px 6px  ;
+    margin:-240%;
+    margin-top: 61%
+}
+.ilkson .son{
+    color: white;
+    background-color: #2a2a2c;
+    cursor: pointer;
+    border: none;
+    border-radius: 15%;
+    transition: 0.3s;
+    padding: 1px 7px;
+    margin:-209%;
+    margin-top: 52%
+}
+.chapter-list-alt {
+    max-height: 400px; /* Maksimum yükseklik belirleyerek sınır koy */
+    overflow-y: auto; /* İçerik fazla olunca dikey kaydırmayı aktif et */
+    overflow-x: hidden; /* Yatay kaydırmayı kapat */
+    border: none; /* Beyaz kenarlıkları kaldır */
+    background-color: transparent; /* Kenar rengini şeffaf yap */
+    padding: 10px; /* İçeriğin kenarlara yapışmasını önle */
+}
+
+
+
+
+.containera-alt {
+    width: 41%;
+    background: #222222;
+    padding: 130px;
+    border-radius: 10px;
+    margin: auto;
+    height: 200px; /* 500px yüksekliğe sabitler */
+    overflow: hidden;
+    margin-top: 178px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.arama{
+    padding: 10px 415px;
+    margin-left: 20px;
+    border-radius: 25px;
+    
+}
+#searchBoxAlt {
+    text-align: left; /* Yazıyı sola hizala */
+    padding-left: 5px;
+    margin-bottom: 7px; /* Çok yapışmaması için biraz boşluk bırak */
+}
+
+ 
+.chapter-item-alt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px;
+    color: rgb(255, 255, 255);
+    border: 1px solid #676565;
+    border-radius: 15px;
+    background: #2a2a2c;
+    width:100%;
+    gap: 200px;
+    margin-bottom: 7px;
+    font-family: 'poppins',sans-serif;
+    font-weight: 600;
+    margin-right: 50px;
+
+}
+
+.btn-view-alt {
+    background: #7a7b7c;
+    color: #2a2a2c;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.btn-view-alt:hover {
+    background: #dcddde;
+}
+
+.bolumekle{
+    position: absolute; 
+    top: 124%;
+    left: 22%;
+    padding: 20px 2px;
+    background-color: #0056b3;
+    color: #ffffff;
+    font-family: 'poppins',sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.bolumsil{
+    position: absolute; /* Butonu belirli bir konumda tut */
+    top: 134%;
+    left: 22%;
+    padding: 20px 2px;
+    background-color: #c10f0f;
+    color: #ffffff;
+    font-family: 'poppins',sans-serif;
+    font-size: 15.8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.metin{ 
+    position: absolute; 
+    top: 195px; 
+    left:27%; 
+    transform: translateX(-50%); 
+    white-space: nowrap;
+    font-size: 20px;
+    color: white;
+    z-index: 44444;
+    font-family: 'Poppins', sans-serif;          
+}
+.p{
+    position: absolute;
+    top:  215px;
+    left: 20.1%; 
+    max-width: 60%;
+    color: white;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #b8b8b8;
+    z-index: 536356;
+}
+.p h3{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 450;
+    margin-left: 3.5%;
+}
+.bolumler {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: 25px;
+    color: #ffffff;
+    margin-top: -17%;
+    width: fit-content; 
+}
+
+.c{
+    font-family: 'Poppins', sans-serif;
+    margin-top: 0.4%;
+    font-weight: 600;
+    margin-left: 26.5%;
+}  
+
+nav {
+    background-color: rgb(51, 49, 49);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #01918a;
+    color: white;
+    padding: 10px 0;
+    padding: 20px 35px;
+}
+ ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+li {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 21px;
+    margin-right: 50px;  
+}
+nav li a{
+    color: #ffffff; 
+}
+a:hover {
+    color: #1e8d45;
+}
+nav .can{
+    background-color: rebeccapurple;}
+
+   
+
+
+    
+    
+    
+
+
+

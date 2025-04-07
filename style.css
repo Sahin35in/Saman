@@ -1,6 +1,6 @@
 
  body{
-   background-color: #22145d;
+   background-color: #16151d;
     margin-top: 10%;  
     margin: 0;
     padding: 0;
@@ -12,19 +12,10 @@ nav li a{
     color: #ffffff;
      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
         }
-    
-.kapsa {
-    display: grid;
-    grid-template-columns: 207px 207px 207px;
-    column-gap: 120px;
-    justify-content: center; 
-}
 
-img{
-  background-color:#3300ff ; 
-  padding: 9px;
-  margin-top: 100px 
-}
+
+
+
 
 
 .oku {
@@ -38,15 +29,21 @@ img{
        
 }
 
-.s1,.s2,.s3{
-    background-color: rgb(173, 52, 52);
-    color: white;
-    padding: 10px 30px;
-    border-radius: 15%;
-    cursor: pointer;
-}
+
 .asa{
   margin-top: 400px;
+}
+.çık{
+  position: absolute; /* Butonu belirli bir konumda tut */
+    top: 8.8%;
+    margin-left: 1px;
+    cursor: pointer;
+    padding: 11px 20px;
+    background-color: #17a13e;
+    color: #ffffff;
+    font-family: 'poppins',sans-serif;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 nav {
@@ -79,3 +76,162 @@ nav {
     color: #1e8d45;
   }
   nav .can{background-color: rebeccapurple;}
+
+
+
+
+
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 3rem;
+}
+
+.son-yayimlananlar-container {
+  max-width: 1000px;
+  width: 100%;
+  padding: 1rem;
+}
+
+.baslik-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+}
+
+.baslik-bar h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.btn-tumunu-gor {
+  background-color: #059669;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  border: none;
+  font-size: 0.75rem;
+  cursor: pointer;
+  width: 100px;
+}
+
+.son-yayimlananlar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 1.25rem;
+  font-family: 'poppins', sans-serif;
+}
+
+.kart {
+  display: flex;
+  gap: 0.75rem;
+  background-color: #222222;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  align-items: flex-start;
+  color: white;
+  height: 150px;
+}
+
+.kapak-wrapper {
+  position: relative;
+}
+
+.kapak {
+  width: 105px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  margin-top: -4%;
+}
+
+.bayrak {
+  position: absolute;
+  bottom: 0.25rem;
+  right: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.icerik {
+  flex: 1;
+  margin-top: 2%;
+}
+
+.baslik {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  font-family: 'poppins',sans-serif;
+  margin-top: -4%;
+  font-weight: 600;
+}
+
+.bolumler {
+  font-size: 0.75rem;
+  color: #d1d5db;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bolumler li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+}
+
+.bolumler li span {
+  font-size: 0.65rem;
+  color: #9ca3af;
+}
+
+.etiket {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.65rem;
+  font-weight: bold;
+  background-color: #f97316;
+  color: white;
+}
+
+.admin-panel {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+      display: block;
+  
+}
+
+.admin-panel input {
+    display: block;
+    margin: 5px 0;
+    padding: 8px;
+    width: 100%;
+}
+
+.admin-panel button {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.admin-panel button:hover {
+    background-color: #cc0000;
+}
