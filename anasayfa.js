@@ -1,14 +1,11 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    // Admin kontrolü ve admin olmayan kullanıcılar için panelin gizlenmesi
     let isAdmin = localStorage.getItem("admin") === "true";
-    
-    // Admin değilse, admin panelini ve çıkış butonunu gizle
+
     if (!isAdmin) {
         document.getElementById("adminPanel").style.display = "none";
         document.getElementById("logoutButton").style.display = "none";
     }
 
-    let adminPanel = document.getElementById("adminPanel");
     let addChaptersButton = document.getElementById("addChaptersButton");
     let mangaNameInput = document.getElementById("mangaName");
     let chapterCountInput = document.getElementById("chapterCount");
@@ -18,17 +15,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     let logoutButton = document.getElementById("logoutButton");
     logoutButton.style.display = isAdmin ? "inline-block" : "none";
 
-    // Çıkış yap butonuna tıklama olayı
     logoutButton.addEventListener("click", function () {
         localStorage.removeItem("admin");
         window.location.reload();
     });
 
-    // Bölümleri JSON dosyasından çek
     async function fetchChapters() {
-        const response = await fetch("/bolumler.json"); // JSON dosyasını çek
+        const response = await fetch("/bolumler.json");
         const data = await response.json();
-        localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(data)); // Verileri localStorage'a kaydet
+
+        // Eğer `localStorage` boşsa, JSON verilerini kaydet
+        if (!localStorage.getItem("tumMangalarinBolumleri")) {
+            localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(data));
+        }
+
         updateChaptersUI();
     }
 
@@ -49,17 +49,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         if (isDeleteCommand) {
             let deleteCount = isNaN(chapterCount) ? 0 : chapterCount;
-            if (tumMangalarinBolumleri[mangaAdi].length === 0) {
-                alert(`"${mangaAdi}" için silinecek bölüm bulunamadı!`);
-                return;
-            }
-
             tumMangalarinBolumleri[mangaAdi] = tumMangalarinBolumleri[mangaAdi].slice(0, -deleteCount);
             localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(tumMangalarinBolumleri));
-            alert(`"${mangaAdi}" için son ${deleteCount} bölüm başarıyla silindi!`);
+            alert(`"${mangaAdi}" için son ${deleteCount} bölüm silindi.`);
         } else {
             if (isNaN(chapterCount) || chapterCount <= 0) {
-                alert("Lütfen geçerli bir bölüm sayısı girin!");
+                alert("Geçerli bir bölüm sayısı girin!");
                 return;
             }
 
@@ -72,22 +67,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             for (let i = 0; i < chapterCount; i++) {
                 let newNumber = startNumber + i;
-                let newTitle = `Bölüm ${newNumber}`;
-                let newPath = `${basePath}/${newNumber}.bolum/b${newNumber}.html`;
-
-                let newTime = new Date().toISOString();
                 let newChapter = {
                     number: newNumber,
-                    title: newTitle,
-                    path: newPath,
-                    time: newTime
+                    title: `Bölüm ${newNumber}`,
+                    path: `${basePath}/${newNumber}.bolum/b${newNumber}.html`,
+                    time: new Date().toISOString()
                 };
 
                 tumMangalarinBolumleri[mangaAdi].push(newChapter);
             }
 
             localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(tumMangalarinBolumleri));
-            alert(`"${mangaAdi}" için ${chapterCount} bölüm başarıyla eklendi!`);
+            alert(`"${mangaAdi}" için ${chapterCount} bölüm eklendi.`);
         }
 
         updateChaptersUI();
@@ -117,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const time = li.getAttribute("data-time");
             const span = li.querySelector("span.time-ago");
             if (span) {
-                span.textContent = timeAgo(time); // Daha hassas zaman bilgisi hesaplanıyor
+                span.textContent = timeAgo(time);
             }
         });
     }
@@ -154,6 +145,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         updateTimes();
     }
 
-    await fetchChapters(); // JSON'dan verileri çek ve güncelle
+    await fetchChapters();
     setInterval(updateTimes, 60000); // Her 60 saniyede zaman güncelle
 });
