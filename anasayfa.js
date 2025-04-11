@@ -22,17 +22,24 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     async function fetchChapters() {
         const response = await fetch("/bolumler.json");
-        const data = await response.json();
+        const jsonData = await response.json();
+        const localData = JSON.parse(localStorage.getItem("tumMangalarinBolumleri")) || {};
 
-        // Eğer `localStorage` boşsa, JSON verilerini kaydet
-        if (!localStorage.getItem("tumMangalarinBolumleri")) {
-            localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(data));
-        }
+        // JSON'daki verileri localStorage ile birleştir
+        Object.keys(jsonData).forEach(mangaAdi => {
+            if (!localData[mangaAdi]) localData[mangaAdi] = [];
+            jsonData[mangaAdi].forEach(chapter => {
+                if (!localData[mangaAdi].some(localChapter => localChapter.number === chapter.number)) {
+                    localData[mangaAdi].push(chapter);
+                }
+            });
+        });
 
+        localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(localData));
         updateChaptersUI();
     }
 
-    addChaptersButton.addEventListener("click", function () {
+    addChaptersButton.addEventListener("click", async function () {
         let userInput = mangaNameInput.value.trim();
         let chapterCount = parseInt(chapterCountInput.value);
         let commandParts = userInput.split(" ");
@@ -51,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             let deleteCount = isNaN(chapterCount) ? 0 : chapterCount;
             tumMangalarinBolumleri[mangaAdi] = tumMangalarinBolumleri[mangaAdi].slice(0, -deleteCount);
             localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(tumMangalarinBolumleri));
-            alert(`"${mangaAdi}" için son ${deleteCount} bölüm silindi.`);
+            alert(`"${mangaAdi}" için son ${deleteCount} bölüm başarıyla silindi.`);
         } else {
             if (isNaN(chapterCount) || chapterCount <= 0) {
                 alert("Geçerli bir bölüm sayısı girin!");
@@ -78,11 +85,23 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
             localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(tumMangalarinBolumleri));
-            alert(`"${mangaAdi}" için ${chapterCount} bölüm eklendi.`);
+            alert(`"${mangaAdi}" için ${chapterCount} bölüm başarıyla eklendi.`);
         }
 
+        // Güncellenen veriyi JSON dosyasına kaydet
+        await pushToServer(tumMangalarinBolumleri);
         updateChaptersUI();
     });
+
+    async function pushToServer(data) {
+        await fetch("/api/updateChapters", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+    }
 
     function timeAgo(isoDate) {
         const now = new Date();
@@ -146,5 +165,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     await fetchChapters();
-    setInterval(updateTimes, 60000); // Her 60 saniyede zaman güncelle
+    setInterval(updateTimes, 60000);
 });
