@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     // Admin kontrolü ve admin olmayan kullanıcılar için panelin gizlenmesi
     let isAdmin = localStorage.getItem("admin") === "true";
     
@@ -23,6 +23,14 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.removeItem("admin");
         window.location.reload();
     });
+
+    // Bölümleri JSON dosyasından çek
+    async function fetchChapters() {
+        const response = await fetch("/bolumler.json"); // JSON dosyasını çek
+        const data = await response.json();
+        localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(data)); // Verileri localStorage'a kaydet
+        updateChaptersUI();
+    }
 
     addChaptersButton.addEventListener("click", function () {
         let userInput = mangaNameInput.value.trim();
@@ -139,7 +147,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     <span class="time-ago" style="font-size: 0.7em; color: gray; margin-left: 10px;"></span>
                 </div>
             `;
-            
                 bolumListesi.appendChild(li);
             });
         });
@@ -147,6 +154,6 @@ document.addEventListener("DOMContentLoaded", function () {
         updateTimes();
     }
 
-    updateChaptersUI();
+    await fetchChapters(); // JSON'dan verileri çek ve güncelle
     setInterval(updateTimes, 60000); // Her 60 saniyede zaman güncelle
 });
