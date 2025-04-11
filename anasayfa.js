@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const time = li.getAttribute("data-time");
             const span = li.querySelector("span.time-ago");
             if (span) {
-                span.textContent = timeAgo(time);
+                span.textContent = timeAgo(time); // Daha hassas zaman bilgisi hesaplanıyor
             }
         });
     }
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 li.setAttribute("data-time", bolum.time);
                 li.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <a href="${bolum.path}" style= "font-size: 0.9em; margin-right: 140px;">${bolum.title}</a>
+                    <a href="${bolum.path}" style="font-size: 0.9em; margin-right: 140px;">${bolum.title}</a>
                     <span class="time-ago" style="font-size: 0.7em; color: gray; margin-left: 10px;"></span>
                 </div>
             `;
