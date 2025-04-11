@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const jsonData = await response.json();
         const localData = JSON.parse(localStorage.getItem("tumMangalarinBolumleri")) || {};
 
-        // JSON'daki verileri localStorage ile birleştir
+        // JSON ve localStorage senkronizasyonu
         Object.keys(jsonData).forEach(mangaAdi => {
             if (!localData[mangaAdi]) localData[mangaAdi] = [];
             jsonData[mangaAdi].forEach(chapter => {
@@ -165,5 +165,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     await fetchChapters();
-    setInterval(updateTimes, 60000);
+    setInterval(updateTimes, 60000); // Her 60 saniyede zaman güncelle
 });
