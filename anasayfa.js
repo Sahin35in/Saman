@@ -6,9 +6,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("logoutButton").style.display = "none";
     }
 
-    let addChaptersButton = document.getElementById("addChaptersButton");
-    let mangaNameInput = document.getElementById("mangaName");
-    let chapterCountInput = document.getElementById("chapterCount");
     let bolumlerNanoMachine = document.getElementById("bolumlerNanoMachine");
     let bolumlerStar = document.getElementById("bolumlerStar");
 
@@ -20,6 +17,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         window.location.reload();
     });
 
+    // Bölümleri JSON'dan çek
     async function fetchChapters() {
         const response = await fetch("/bolumler.json");
         const jsonData = await response.json();
@@ -30,77 +28,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (!localData[mangaAdi]) localData[mangaAdi] = [];
             jsonData[mangaAdi].forEach(chapter => {
                 if (!localData[mangaAdi].some(localChapter => localChapter.number === chapter.number)) {
-                    localData[mangaAdi].push(chapter);
+                    localData[mangaAdi].push({
+                        ...chapter,
+                        views: chapter.views || 0 // Görüntülenme sayısı ekleniyor
+                    });
                 }
             });
         });
 
         localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(localData));
         updateChaptersUI();
-    }
-
-    addChaptersButton.addEventListener("click", async function () {
-        let userInput = mangaNameInput.value.trim();
-        let chapterCount = parseInt(chapterCountInput.value);
-        let commandParts = userInput.split(" ");
-        let mangaAdi = commandParts[0].toLowerCase();
-        let isDeleteCommand = commandParts.length > 1 && commandParts[1] === "sil";
-
-        if (!["nanomachine", "star"].includes(mangaAdi)) {
-            alert("Geçersiz manga ismi!");
-            return;
-        }
-
-        let tumMangalarinBolumleri = JSON.parse(localStorage.getItem("tumMangalarinBolumleri")) || {};
-        if (!tumMangalarinBolumleri[mangaAdi]) tumMangalarinBolumleri[mangaAdi] = [];
-
-        if (isDeleteCommand) {
-            let deleteCount = isNaN(chapterCount) ? 0 : chapterCount;
-            tumMangalarinBolumleri[mangaAdi] = tumMangalarinBolumleri[mangaAdi].slice(0, -deleteCount);
-            localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(tumMangalarinBolumleri));
-            alert(`"${mangaAdi}" için son ${deleteCount} bölüm başarıyla silindi.`);
-        } else {
-            if (isNaN(chapterCount) || chapterCount <= 0) {
-                alert("Geçerli bir bölüm sayısı girin!");
-                return;
-            }
-
-            let startNumber = tumMangalarinBolumleri[mangaAdi].length + 1;
-            let mangaPaths = {
-                "nanomachine": "/manga/nanomachine/bolumler",
-                "star": "/manga/BuyuKulesininSorunluCocugu/bolumler"
-            };
-            let basePath = mangaPaths[mangaAdi];
-
-            for (let i = 0; i < chapterCount; i++) {
-                let newNumber = startNumber + i;
-                let newChapter = {
-                    number: newNumber,
-                    title: `Bölüm ${newNumber}`,
-                    path: `${basePath}/${newNumber}.bolum/b${newNumber}.html`,
-                    time: new Date().toISOString()
-                };
-
-                tumMangalarinBolumleri[mangaAdi].push(newChapter);
-            }
-
-            localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(tumMangalarinBolumleri));
-            alert(`"${mangaAdi}" için ${chapterCount} bölüm başarıyla eklendi.`);
-        }
-
-        // Güncellenen veriyi JSON dosyasına kaydet
-        await pushToServer(tumMangalarinBolumleri);
-        updateChaptersUI();
-    });
-
-    async function pushToServer(data) {
-        await fetch("/api/updateChapters", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        });
     }
 
     function timeAgo(isoDate) {
@@ -151,17 +88,46 @@ document.addEventListener("DOMContentLoaded", async function () {
             bolumler.forEach(bolum => {
                 const li = document.createElement("li");
                 li.setAttribute("data-time", bolum.time);
+
+                // Görüntülenme sayısını ve güncellenme zamanını göster
                 li.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <a href="${bolum.path}" style="font-size: 0.9em; margin-right: 140px;">${bolum.title}</a>
-                    <span class="time-ago" style="font-size: 0.7em; color: gray; margin-left: 10px;"></span>
+                    <div>
+                        <a href="${bolum.path}" style="font-size: 0.9em;">${bolum.title}</a>
+                        <span class="time-ago" style="font-size: 0.7em; color: gray; margin-left: 10px;"></span>
+                        <br />
+                        <span style="font-size: 0.7em; color: gray;">Görüntülenme: ${bolum.views}</span>
+                    </div>
+                    <button class="view-button" data-manga="${mangaAdi}" data-chapter="${bolum.number}" style="font-size: 0.7em; margin-left: 10px;">Görüntüle</button>
                 </div>
-            `;
+                `;
+
                 bolumListesi.appendChild(li);
             });
         });
 
         updateTimes();
+        addViewListeners(); // Görüntüleme butonu için olay dinleyicileri ekle
+    }
+
+    function addViewListeners() {
+        const buttons = document.querySelectorAll(".view-button");
+        buttons.forEach(button => {
+            button.addEventListener("click", function () {
+                const mangaAdi = button.getAttribute("data-manga");
+                const chapterNumber = parseInt(button.getAttribute("data-chapter"));
+
+                const tumMangalarinBolumleri = JSON.parse(localStorage.getItem("tumMangalarinBolumleri")) || {};
+                if (tumMangalarinBolumleri[mangaAdi]) {
+                    const chapter = tumMangalarinBolumleri[mangaAdi].find(ch => ch.number === chapterNumber);
+                    if (chapter) {
+                        chapter.views = (chapter.views || 0) + 1; // Görüntülenme sayısını artır
+                        localStorage.setItem("tumMangalarinBolumleri", JSON.stringify(tumMangalarinBolumleri));
+                        updateChaptersUI();
+                    }
+                }
+            });
+        });
     }
 
     await fetchChapters();

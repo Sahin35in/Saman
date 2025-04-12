@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     let chapterList = document.getElementById("chapterListAlt");
     let addButton = document.getElementById("addChapterButton");
     let deleteButton = document.getElementById("deleteLastChapterButton");
@@ -13,10 +13,44 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteButton.style.display = "block";
     }
 
+    // 📌 Görüntülenme ve son güncelleme alanlarını getir
+    let totalViewsElement = document.getElementById("totalViews");
+    let lastUpdateElement = document.getElementById("lastUpdate");
+
+    try {
+        // 📌 Görüntülenme sayısını API'den çek (GET isteği)
+        const response = await fetch("/api/views", { method: "GET" });
+        if (!response.ok) {
+            throw new Error("Görüntülenme sayısını alırken bir hata oluştu.");
+        }
+        const data = await response.json();
+        const currentViews = data.views;
+
+        // 📌 Görüntülenme sayısını artırmak için API'ye POST isteği gönder
+        const updateResponse = await fetch("/api/views", { method: "POST" });
+        if (!updateResponse.ok) {
+            throw new Error("Görüntülenme sayısını artırırken bir hata oluştu.");
+        }
+        const updatedData = await updateResponse.json();
+        const updatedViews = updatedData.views;
+
+        // 📌 Görüntülenme sayısını güncelle ve HTML'de göster
+        totalViewsElement.textContent = `Görüntülenme: ${updatedViews}`;
+
+        // 📌 Son güncelleme zamanını ayarla ve HTML'e yazdır
+        let currentTime = new Date();
+        lastUpdateElement.textContent = `Son Güncelleme: ${formatDate(currentTime)}`;
+    } catch (error) {
+        console.error(error);
+        totalViewsElement.textContent = "Görüntülenme: Yüklenemedi";
+        lastUpdateElement.textContent = "Son Güncelleme: Yüklenemedi";
+    }
+
+    // 📌 Bölümleri LocalStorage'dan getir
     let storedChapters = JSON.parse(localStorage.getItem("nanoMachineChapters")) || [];
     storedChapters.forEach(chapter => addChapterToUI(chapter));
 
-    // 📌 Bölüm ekleme fonksiyonu (Sadece Nano Machine'e ekler)
+    // 📌 Bölüm ekleme fonksiyonu (Sadece Admin)
     addButton.addEventListener("click", function () {
         if (!isAdmin) {
             alert("Sadece admin kullanıcılar bölüm ekleyebilir!");
@@ -60,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
         chapterList.removeChild(chapterList.lastChild); // 🌟 HTML’den de kaldır
     });
 
+    // 📌 Bölüm listesine bir bölüm ekler
     function addChapterToUI(chapter) {
         let chapterItem = document.createElement("div");
         chapterItem.classList.add("chapter-item-alt");
@@ -74,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateTime(chapterItem);
     }
 
+    // 📌 Zamanı günceller
     function updateTime(chapterItem) {
         let timeLabel = chapterItem.querySelector(".time-label");
         let chapterTime = new Date(chapterItem.dataset.time);
@@ -106,25 +142,4 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(function () {
         document.querySelectorAll(".chapter-item-alt").forEach(updateTime);
     }, 60000);
-
-    // 📌 Ana sayfa için bölümleri ekleyelim
-    document.addEventListener("DOMContentLoaded", function () {
-        let bolumlerNanoMachine = document.getElementById("bolumlerNanoMachine");
-
-        if (!bolumlerNanoMachine) {
-            console.error("HATA: Ana sayfa HTML'inde bolumlerNanoMachine ID'si eksik!");
-            return;
-        }
-
-        let tumMangalarinBolumleri = JSON.parse(localStorage.getItem("tumMangalarinBolumleri")) || {};
-        console.log("Ana sayfa bölümleri:", tumMangalarinBolumleri);
-
-        if (tumMangalarinBolumleri["Nano Machine"]) {
-            tumMangalarinBolumleri["Nano Machine"].forEach(bolum => {
-                let li = document.createElement("li");
-                li.innerHTML = `<a href="${bolum.path}">${bolum.title}</a>`;
-                bolumlerNanoMachine.appendChild(li);
-            });
-        }
-    });
 });
